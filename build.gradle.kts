@@ -9,7 +9,7 @@ plugins {
     //id("com.github.johnrengelman.shadow") version "8.1.1"
     id("xyz.jpenilla.run-paper") version "2.3.1"
     id("net.minecrell.plugin-yml.bukkit") version "0.6.0" // Generates plugin.yml
-    id("io.papermc.paperweight.userdev") version "2.0.0-beta.17" apply false
+    id("io.papermc.paperweight.userdev") version "2.0.0-beta.18" apply false
     id("io.github.goooler.shadow") version "8.1.8"
 }
 
@@ -23,7 +23,8 @@ val SUPPORTED_VERSIONS: List<NMSVersion> = listOf(
     "v1_21_R1" toNms "1.21.1-R0.1-SNAPSHOT",
     "v1_21_R2" toNms "1.21.3-R0.1-SNAPSHOT",
     "v1_21_R3" toNms "1.21.4-R0.1-SNAPSHOT",
-    "v1_21_R4" toNms "1.21.5-R0.1-SNAPSHOT"
+    "v1_21_R4" toNms "1.21.5-R0.1-SNAPSHOT",
+    "v1_21_R4" toNms "1.21.6-R0.1-SNAPSHOT"
 )
 
 val compiled = (project.findProperty("oraxen_compiled")?.toString() ?: "true").toBoolean()
@@ -32,11 +33,11 @@ val devPluginPath = project.findProperty("oraxen_dev_plugin_path")?.toString()
 val foliaPluginPath = project.findProperty("oraxen_folia_plugin_path")?.toString()
 val spigotPluginPath = project.findProperty("oraxen_spigot_plugin_path")?.toString()
 val pluginVersion: String by project
-val commandApiVersion = "10.0.0"
-val adventureVersion = "4.17.0"
-val platformVersion = "4.3.4"
-val googleGsonVersion = "2.10.1"
-val apacheLang3Version = "3.14.0"
+val commandApiVersion = "10.1.1"
+val adventureVersion = "4.22.0"
+val platformVersion = "4.4.0"
+val googleGsonVersion = "2.13.1"
+val apacheLang3Version = "3.17.0"
 group = "io.th0rgal"
 version = pluginVersion
 
@@ -78,11 +79,11 @@ allprojects {
         compileOnly("com.comphenix.protocol:ProtocolLib:5.3.0")
         compileOnly("me.clip:placeholderapi:2.11.6")
         compileOnly("me.gabytm.util:actions-core:$actionsVersion")
-        compileOnly("org.springframework:spring-expression:6.0.6")
+        compileOnly("org.springframework:spring-expression:6.2.8")
         compileOnly("io.lumine:Mythic-Dist:5.7.0-SNAPSHOT")
         compileOnly("io.lumine:MythicCrucible:1.6.0-SNAPSHOT")
         compileOnly("com.sk89q.worldedit:worldedit-bukkit:7.2.9")
-        compileOnly("commons-io:commons-io:2.11.0")
+        compileOnly("commons-io:commons-io:2.19.0")
         compileOnly("com.google.code.gson:gson:$googleGsonVersion")
         compileOnly("com.ticxo.modelengine:ModelEngine:R4.0.4")
         compileOnly("com.ticxo.modelengine:api:R3.1.8")
@@ -107,7 +108,7 @@ allprojects {
         implementation("com.jeff-media:MorePersistentDataTypes:2.4.0")
         implementation("com.jeff-media:persistent-data-serializer:1.0")
         implementation("org.jetbrains:annotations:24.1.0") { isTransitive = false }
-        implementation("dev.triumphteam:triumph-gui:3.1.10") { exclude("net.kyori") }
+        implementation("dev.triumphteam:triumph-gui:3.1.12") { exclude("net.kyori") }
 
         implementation("me.gabytm.util:actions-spigot:$actionsVersion") { exclude(group = "com.google.guava") }
     }
@@ -205,9 +206,9 @@ bukkit {
         default = net.minecrell.pluginyml.bukkit.BukkitPluginDescription.Permission.Default.TRUE
     }
     libraries = listOf(
-        "org.springframework:spring-expression:6.0.6",
-        "org.apache.httpcomponents:httpmime:4.5.13",
-        "org.joml:joml:1.10.5",
+        "org.springframework:spring-expression:6.2.8",
+        "org.apache.httpcomponents:httpmime:4.5.14",
+        "org.joml:joml:1.10.8",
         "net.kyori:adventure-text-minimessage:$adventureVersion",
         "net.kyori:adventure-text-serializer-plain:$adventureVersion",
         "net.kyori:adventure-text-serializer-ansi:$adventureVersion",

@@ -13,6 +13,7 @@ import io.th0rgal.oraxen.utils.ItemUtils;
 import io.th0rgal.oraxen.utils.Utils;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 
@@ -47,14 +48,14 @@ public class ItemsView {
         for (Map.Entry<File, PaginatedGui> entry : files.entrySet()) {
             int slot = getGuiItemSlot(entry.getKey()).slot();
             if (slot == -1) continue;
-            guiItems.set(slot, new GuiItem(getGuiItemSlot(entry.getKey()).itemStack, e -> entry.getValue().open(e.getWhoClicked())));
+            guiItems.set(slot, new GuiItem(getGuiItemSlot(entry.getKey()).itemStack, e -> entry.getValue().open((Player) e.getWhoClicked())));
         }
 
         // Add all items without a specified slot to the earliest available slot
         for (Map.Entry<File, PaginatedGui> entry : files.entrySet()) {
             GuiItemSlot guiItemSlot = getGuiItemSlot(entry.getKey());
             if (guiItemSlot.slot != -1) continue;
-            guiItems.set(guiItems.indexOf(emptyGuiItem), new GuiItem(guiItemSlot.itemStack(), e -> entry.getValue().open(e.getWhoClicked())));
+            guiItems.set(guiItems.indexOf(emptyGuiItem), new GuiItem(guiItemSlot.itemStack(), e -> entry.getValue().open((Player) e.getWhoClicked())));
         }
 
         mainGui = Gui.paginated().rows(rows).pageSize((int) Settings.ORAXEN_INV_SIZE.getValue()).title(Settings.ORAXEN_INV_TITLE.toComponent()).create();
@@ -116,7 +117,7 @@ public class ItemsView {
             gui.setItem(6, 8, new GuiItem(nextPage, event -> gui.next()));
         }
 
-        gui.setItem(6, 5, new GuiItem(exitIcon, event -> mainGui.open(event.getWhoClicked())));
+        gui.setItem(6, 5, new GuiItem(exitIcon, event -> mainGui.open((Player) event.getWhoClicked())));
 
         return gui;
     }

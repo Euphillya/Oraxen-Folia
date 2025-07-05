@@ -3,6 +3,7 @@ package io.th0rgal.oraxen;
 import com.comphenix.protocol.ProtocolLibrary;
 import dev.jorel.commandapi.CommandAPI;
 import dev.jorel.commandapi.CommandAPIBukkitConfig;
+import dev.triumphteam.gui.TriumphGui;
 import io.th0rgal.oraxen.api.OraxenItems;
 import io.th0rgal.oraxen.api.events.OraxenItemsLoadedEvent;
 import io.th0rgal.oraxen.commands.CommandsManager;
@@ -81,6 +82,7 @@ public class OraxenPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         scheduler = VersionUtil.isFoliaServer() ? new io.th0rgal.oraxen.api.scheduler.FoliaSchedulerAdapter() : new io.th0rgal.oraxen.api.scheduler.SpigotSchedulerAdapter();
+        TriumphGui.init(this);
         CommandAPI.onEnable();
         ProtectionLib.init(this);
         audience = BukkitAudiences.create(this);

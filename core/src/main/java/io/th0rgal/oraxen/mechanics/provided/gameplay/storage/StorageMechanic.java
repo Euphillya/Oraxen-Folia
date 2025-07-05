@@ -143,7 +143,7 @@ public class StorageMechanic {
         }
         if (gui != null) {
             HumanEntity[] players = gui.getInventory().getViewers().toArray(new HumanEntity[0]);
-            for (HumanEntity player : players) gui.close(player);
+            for (HumanEntity player : players) gui.close((Player) player);
         }
         pdc.remove(STORAGE_KEY);
         blockStorages.remove(block);
@@ -173,7 +173,7 @@ public class StorageMechanic {
 
         if (gui != null) {
             HumanEntity[] players = gui.getInventory().getViewers().toArray(new HumanEntity[0]);
-            for (HumanEntity player : players) gui.close(player);
+            for (HumanEntity player : players) gui.close((Player) player);
         }
         pdc.remove(STORAGE_KEY);
         frameStorages.remove(baseEntity);
