@@ -115,11 +115,13 @@ public class CommandsManager {
                     final ItemStack[] items = itemBuilder.buildArray(slots > 36 ? (amount = max * 36) : amount);
 
                     for (final Player target : targets) {
-                        final Map<Integer, ItemStack> output = target.getInventory().addItem(items);
-                        if (!output.isEmpty()) {
-                            for (final ItemStack stack : output.values())
-                                target.getWorld().dropItem(target.getLocation(), stack);
-                        }
+                        org.bukkit.Bukkit.getRegionScheduler().run(OraxenPlugin.get(), target.getLocation(), scheduledTask -> {
+                            final Map<Integer, ItemStack> output = target.getInventory().addItem(items);
+                            if (!output.isEmpty()) {
+                                for (final ItemStack stack : output.values())
+                                    target.getWorld().dropItem(target.getLocation(), stack);
+                            }
+                        });
                     }
 
                     if (targets.size() == 1)
