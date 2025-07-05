@@ -35,8 +35,12 @@ public class BigMiningMechanicListener implements Listener {
             blocksToProcess -= 1;
             return;
         }
-
-        final List<Block> lastTwoTargetBlocks = player.getLastTwoTargetBlocks(null, 5);
+        List<Block> lastTwoTargetBlocks;
+        try {
+            lastTwoTargetBlocks = player.getLastTwoTargetBlocks(null, 5);
+        } catch (Exception ignored) {
+            return;
+        }
         final BigMiningMechanic mechanic = (BigMiningMechanic) factory.getMechanic(item);
         if (mechanic == null || lastTwoTargetBlocks.size() < 2) return;
 

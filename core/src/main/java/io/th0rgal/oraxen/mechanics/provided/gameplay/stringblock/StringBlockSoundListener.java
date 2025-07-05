@@ -1,10 +1,12 @@
 package io.th0rgal.oraxen.mechanics.provided.gameplay.stringblock;
 
+import io.th0rgal.oraxen.OraxenPlugin;
 import io.th0rgal.oraxen.api.OraxenBlocks;
 import io.th0rgal.oraxen.api.events.stringblock.OraxenStringBlockBreakEvent;
 import io.th0rgal.oraxen.api.events.stringblock.OraxenStringBlockPlaceEvent;
 import io.th0rgal.oraxen.utils.BlockHelpers;
 import io.th0rgal.oraxen.utils.blocksounds.BlockSounds;
+import org.bukkit.Bukkit;
 import org.bukkit.GameEvent;
 import org.bukkit.Material;
 import org.bukkit.SoundCategory;
@@ -63,29 +65,33 @@ public class StringBlockSoundListener implements Listener {
         if (!(entity instanceof LivingEntity)) return;
         if (!isLoaded(entity.getLocation())) return;
 
-        GameEvent gameEvent = event.getEvent();
-        Block block = entity.getLocation().getBlock();
-        EntityDamageEvent cause = entity.getLastDamageCause();
+        Bukkit.getRegionScheduler().execute(OraxenPlugin.get(), entity.getLocation(), () -> {
+            GameEvent gameEvent = event.getEvent();
+            Block block = entity.getLocation().getBlock();
+            EntityDamageEvent cause = entity.getLastDamageCause();
 
-        if (gameEvent == GameEvent.HIT_GROUND && cause != null && cause.getCause() != EntityDamageEvent.DamageCause.FALL) return;
+            if (gameEvent == GameEvent.HIT_GROUND && cause != null && cause.getCause() != EntityDamageEvent.DamageCause.FALL) return;
 
-        StringBlockMechanic mechanic = OraxenBlocks.getStringMechanic(block);
-        String sound;
-        float volume;
-        float pitch;
+            Bukkit.getRegionScheduler().execute(OraxenPlugin.get(), block.getLocation(), () -> {
+                StringBlockMechanic mechanic = OraxenBlocks.getStringMechanic(block);
+                String sound;
+                float volume;
+                float pitch;
 
-        if (mechanic == null || !mechanic.hasBlockSounds()) return;
-        BlockSounds blockSounds = mechanic.getBlockSounds();
-        if (gameEvent == GameEvent.STEP && blockSounds.hasStepSound()) {
-            sound = blockSounds.getStepSound();
-            volume = blockSounds.getStepVolume();
-            pitch = blockSounds.getStepPitch();
-        } else if (gameEvent == GameEvent.HIT_GROUND && blockSounds.hasStepSound()) {
-            sound = blockSounds.getFallSound();
-            volume = blockSounds.getFallVolume();
-            pitch = blockSounds.getFallPitch();
-        } else return;
-        BlockHelpers.playCustomBlockSound(entity.getLocation(), sound, SoundCategory.PLAYERS, volume, pitch);
+                if (mechanic == null || !mechanic.hasBlockSounds()) return;
+                BlockSounds blockSounds = mechanic.getBlockSounds();
+                if (gameEvent == GameEvent.STEP && blockSounds.hasStepSound()) {
+                    sound = blockSounds.getStepSound();
+                    volume = blockSounds.getStepVolume();
+                    pitch = blockSounds.getStepPitch();
+                } else if (gameEvent == GameEvent.HIT_GROUND && blockSounds.hasStepSound()) {
+                    sound = blockSounds.getFallSound();
+                    volume = blockSounds.getFallVolume();
+                    pitch = blockSounds.getFallPitch();
+                } else return;
+                BlockHelpers.playCustomBlockSound(entity.getLocation(), sound, SoundCategory.PLAYERS, volume, pitch);
+            });
+        });
     }
 
 }
